@@ -1,6 +1,6 @@
 package fr.diginamic;
 
-import fr.diginamic.persistence.EntityManagerProvider;
+import fr.diginamic.jpa.EntityManagerProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
