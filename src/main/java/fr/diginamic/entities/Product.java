@@ -2,6 +2,9 @@ package fr.diginamic.entities;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "product")
 public class Product extends ABaseEntity {
@@ -16,20 +19,28 @@ public class Product extends ABaseEntity {
 
     private Double price;
 
-    public Double getPrice() {
-        return price;
+    @ManyToMany
+    @JoinTable(name = "products_petStores",
+            joinColumns = @JoinColumn(name = "product_ID"),
+            inverseJoinColumns = @JoinColumn(name = "petStores_ID"))
+    private Set<PetStore> petStores = new LinkedHashSet<>();
+
+    public void addPetStore(PetStore petStore) {
+        petStore.getProducts().add(this);
+        petStores.add(petStore);
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void removePetStore(PetStore petStore) {
+        petStore.getProducts().remove(this);
+        petStores.remove(petStore);
     }
 
-    public void setType(ProdType type) {
-        this.type = type;
+    public String getCode() {
+        return code;
     }
 
-    public ProdType getType() {
-        return type;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getLabel() {
@@ -40,11 +51,27 @@ public class Product extends ABaseEntity {
         this.label = label;
     }
 
-    public String getCode() {
-        return code;
+    public ProdType getType() {
+        return type;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setType(ProdType type) {
+        this.type = type;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Set<PetStore> getPetStores() {
+        return petStores;
+    }
+
+    public void setPetStores(Set<PetStore> petStores) {
+        this.petStores = petStores;
     }
 }
